@@ -6,7 +6,7 @@ const initialMessage = ''
 const initialEmail = ''
 const initialIndex = 4 // the index the "B" is at
 const postURL = 'http://localhost:9000/api/result';
-let currentCoordinates= {x: 2, y: 2}
+let initialCoordinates = {x: 2, y: 2}
 const initialMoves = 0
 const initialError = ""
 let timeOrTimes = "times"
@@ -16,6 +16,7 @@ export default function AppFunctional(props) {
   const [index, setIndex] = useState(initialIndex);
   const [moves, setMoves] = useState(initialMoves);
   const [error, setError] = useState(initialError);
+  const [coordinates, setCoordinates] = useState(initialCoordinates)
   
   const grid = [
     {index: 0, x: 1, y: 1},
@@ -37,7 +38,7 @@ export default function AppFunctional(props) {
   function getXY(idx) {
     grid.map(location => {
       if (location.index === idx) {
-        currentCoordinates = { x: location.x, y: location.y }
+        setCoordinates({x: location.x, y: location.y})
       }
     })
   }
@@ -48,8 +49,10 @@ export default function AppFunctional(props) {
   function reset() {
     setMoves(initialMoves);
     setEmail(initialEmail);
-    currentCoordinates = {x: 2, y: 2};
+    // currentCoordinates = {x: 2, y: 2};
+    setCoordinates(initialCoordinates);
     setIndex(initialIndex);
+    setMessage(initialMessage)
 
     
   }
@@ -58,6 +61,7 @@ export default function AppFunctional(props) {
     let nextIndex = 0;
     if(direction === 'up') {
       if(index === 0 || index === 1 || index === 2) {
+        setMessage("You can't go up")
         return;
       }
       else{
@@ -70,6 +74,7 @@ export default function AppFunctional(props) {
 
     if(direction === 'down') {
       if(index === 6 || index === 7 || index === 8) {
+        setMessage("You can't go down")
         return;
       }
       else{
@@ -81,6 +86,7 @@ export default function AppFunctional(props) {
     }
     if(direction === 'left') {
       if(index === 0 || index === 3 || index === 6) {
+        setMessage("You can't go left")
         return;
       }
       else{
@@ -92,6 +98,7 @@ export default function AppFunctional(props) {
     }
     if(direction === 'right') {
       if(index === 2 || index === 5 || index === 8) {
+        setMessage("You can't go right")
         return;
       }
       else{
@@ -117,8 +124,8 @@ export default function AppFunctional(props) {
   function onSubmit(evt) {
     evt.preventDefault();
     let newPostObject = {
-      "x" : currentCoordinates.x,
-      "y" : currentCoordinates.y,
+      "x" : coordinates.x,
+      "y" : coordinates.y,
       "steps" : moves,
       "email" : email
     }
@@ -128,16 +135,15 @@ export default function AppFunctional(props) {
       
     })
     .catch(err => {
-      console.error(err)
       setError(err.response.data.message)
     })
-    reset();
+    setEmail(initialEmail);
   }
 
   return (
     <div id="wrapper" className={props.className}>
       <div className="info">
-        <h3 id="coordinates">Coordinates {`(${currentCoordinates.x}, ${currentCoordinates.y})`}</h3>
+        <h3 id="coordinates">Coordinates {`(${coordinates.x}, ${coordinates.y})`}</h3>
         <h3 id="steps">{`You moved ${moves} ${timeOrTimes}`}</h3>
       </div>
       <div id="grid">

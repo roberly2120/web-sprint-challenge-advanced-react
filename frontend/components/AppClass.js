@@ -7,13 +7,14 @@ const initialEmail = ''
 const initialSteps = 0
 const initialIndex = 4 // the index the "B" is at
 const initialError = ""
+const initialCoordinates = {x: 2, y: 2}
 
 const initialState = {
   message: initialMessage,
   email: initialEmail,
   index: initialIndex,
   steps: initialSteps,
-  error: initialError
+  error: initialError,
 }
 const postURL = 'http://localhost:9000/api/result';
 let currentCoordinates = {x: 2, y: 2};
@@ -47,7 +48,10 @@ export default class AppClass extends React.Component {
     grid.map(location => {
       if(location.index === idx) {
         currentCoordinates = { x: location.x, y: location.y }
+        // this.setState({...this.state, coordinates: {x: location.x, y: location.y}})
+        
       }
+      
     })
   }
  
@@ -64,7 +68,6 @@ export default class AppClass extends React.Component {
     // Use this helper to reset all states to their initial values.
     this.setState(initialState)
     currentCoordinates = {x: 2, y: 2}
-
   }
 
   getNextIndex = (direction) => {
@@ -164,10 +167,9 @@ export default class AppClass extends React.Component {
       
     })
     .catch(err => {
-      console.error(err)
       this.setState({...this.state, error: err.response.data.message})
     })
-    this.reset();
+    this.setState({...this.state, email: initialEmail})
   }
 
   render() {
