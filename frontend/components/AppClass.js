@@ -48,19 +48,16 @@ export default class AppClass extends React.Component {
     grid.map(location => {
       if(location.index === idx) {
         currentCoordinates = { x: location.x, y: location.y }
-        // this.setState({...this.state, coordinates: {x: location.x, y: location.y}})
-        
       }
-      
     })
   }
- 
+  
+
 
   getMessage = (messageInput) => {
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
     // returns the fully constructed string.
-    console.log(messageInput)
     this.setState({...this.state, message: messageInput})
   }
 
@@ -162,15 +159,14 @@ export default class AppClass extends React.Component {
     }
     axios.post(postURL, newPostObject)
     .then(res => {
-      // this.getMessage(res.data.message)
-      this.setState({...this.state, message: res.data.message})
-      
+      this.setState({...this.state, message: res.data.message}) 
     })
     .catch(err => {
       this.setState({...this.state, error: err.response.data.message})
     })
     this.setState({...this.state, email: initialEmail})
   }
+  
 
   render() {
     const { className } = this.props
