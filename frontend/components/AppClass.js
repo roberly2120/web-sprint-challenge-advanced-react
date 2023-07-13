@@ -173,7 +173,7 @@ export default class AppClass extends React.Component {
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">{`Coordinates (${currentCoordinates.x}, ${currentCoordinates.y})`}</h3>
+          <h3 id="coordinates">{`Coordinates (${grid[this.state.index].x}, ${grid[this.state.index].y})`}</h3>
           <h3 id="steps">{`You moved ${this.state.steps}`}{this.state.steps === 1 ? " time" : " times"}</h3>
         </div>
         <div id="grid">
@@ -202,7 +202,7 @@ export default class AppClass extends React.Component {
           id="email" 
           type="email" 
           placeholder="type email"></input>
-          <input id="submit" type="submit"></input>
+          <input data-testid="submit" id="submit" type="submit"></input>
         </form>
         <div className='error'>{this.state.error ? this.state.error : ""}</div>
       </div>
